@@ -18777,9 +18777,39 @@ var ReactDOM_1 = ReactDOM$1;
 
 var index$2 = ReactDOM_1;
 
+function Get(url){
+  return new Promise(function (resolve, reject){
+    var req = new XMLHttpRequest();
+    req.addEventListener("load", function (res){
+      var status = res.target.status;
+      if(status >= 200 && status < 300){
+        var result = res.target.response;
+        if(req.getResponseHeader("Content-Type").indexOf("application/json") > -1){
+          result = JSON.parse(result);
+        }
+        resolve(result);
+      }
+      else{
+        reject(res);
+      }
+    });
+    req.open("GET", url);
+    req.send();
+  });
+}
 var container = document.getElementById("content");
 
 var Main = react.createClass({
+  getInitialState: function getInitialState(){
+    return {
+
+    }
+  },
+  componentDidMount: function componentDidMount(){
+    Get("https://nuvi-challenge.herokuapp.com/activities").then(function (res){
+      console.log(res);
+    });
+  },
   render: function render(){
     return (
       react.createElement( 'div', null, "Hello!" )
