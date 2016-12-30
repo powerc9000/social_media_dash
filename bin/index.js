@@ -18798,21 +18798,58 @@ function Get(url){
   });
 }
 var container = document.getElementById("content");
-
-var Main = react.createClass({
+var MediaEvent = react.createClass({
   getInitialState: function getInitialState(){
     return {
 
     }
   },
+  render: function render(){
+    var data = this.props.data;
+    console.log(data);
+    return (
+      react.createElement( 'div', { className: "event" },
+        react.createElement( 'div', { className: "event_header" },
+
+          react.createElement( 'a', { href: data.actor_url, className: "actor_img" }, react.createElement( 'img', { src: data.actor_avator, width: "50", height: "50" })),
+          react.createElement( 'a', { href: data.actor_url }, data.actor_username)
+        ),
+        react.createElement( 'div', { className: "event_body" },
+          react.createElement( 'a', { href: data.activity_url },
+          react.createElement( 'div', null,
+          data.activity_attachment ?
+            react.createElement( 'img', { src: data.activity_attachment }):null
+          ),
+          data.activity_message
+          )
+        ),
+        data.provider
+      )
+    );
+  }
+});
+
+var Main = react.createClass({
+  getInitialState: function getInitialState(){
+    return {
+      data: []
+    }
+  },
   componentDidMount: function componentDidMount(){
+    var this$1 = this;
+
     Get("https://nuvi-challenge.herokuapp.com/activities").then(function (res){
-      console.log(res);
+      this$1.setState({data: res});
     });
   },
   render: function render(){
     return (
-      react.createElement( 'div', null, "Hello!" )
+      react.createElement( 'div', null, "Hello! ", react.createElement( 'div', { className: "events_container" },
+          this.state.data.slice(0,10).map(function (item, index){
+              return (react.createElement( MediaEvent, { data: item, key: index }))
+            })
+        )
+      )
     )
   }
 });
