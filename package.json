@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "react": "^15.4.1"
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
   },
   "devDependencies": {
     "buble": "^0.15.1",
-    "rollup": "^0.39.2"
+    "rollup": "^0.39.2",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
