@@ -18810,12 +18810,16 @@ var MediaEvent = react.createClass({
     return (
       react.createElement( 'div', { className: "event" },
         react.createElement( 'div', { className: "event_header" },
-
-          react.createElement( 'a', { href: data.actor_url, className: "actor_img" }, react.createElement( 'img', { src: data.actor_avator, width: "50", height: "50" })),
-          react.createElement( 'a', { href: data.actor_url }, data.actor_username)
+          react.createElement( 'div', { className: "actor_details" },
+            react.createElement( 'a', { href: data.actor_url, className: "actor_img", target: "_blank" }, react.createElement( 'img', { src: data.actor_avator, width: "50", height: "50" })),
+            react.createElement( 'a', { href: data.actor_url, target: "_blank" }, data.actor_username)
+          ),
+          react.createElement( 'div', { className: "event_date" },
+            (new Date(data.activity_date)).toLocaleDateString()
+          )
         ),
         react.createElement( 'div', { className: "event_body" },
-          react.createElement( 'a', { href: data.activity_url },
+          react.createElement( 'a', { href: data.activity_url, target: "_blank" },
           react.createElement( 'div', null,
           data.activity_attachment ?
             react.createElement( 'img', { src: data.activity_attachment }):null
@@ -18832,23 +18836,53 @@ var MediaEvent = react.createClass({
 var Main = react.createClass({
   getInitialState: function getInitialState(){
     return {
-      data: []
+      shown:10,
+      data: [],
+      loading: true,
     }
   },
   componentDidMount: function componentDidMount(){
     var this$1 = this;
 
     Get("https://nuvi-challenge.herokuapp.com/activities").then(function (res){
-      this$1.setState({data: res});
+      this$1.setState({data: res, loading:false});
     });
+  },
+  showMore: function showMore(e){
+    if(this.state.shown < this.state.data.length){
+      this.setState({
+        shown: Math.min(this.state.shown +20, this.state.data.length)
+      });
+    }
+    e.preventDefault();
+  },
+  renderLoading: function renderLoading(){
+    return (
+      react.createElement( 'div', null, "Loading Data" )
+    )
+  },
+  renderMainContent: function renderMainContent(){
+   return (
+     react.createElement( 'div', null,
+        react.createElement( 'div', { className: "events_container" },
+          this.state.data.slice(0,this.state.shown).map(function (item, index){
+              return (react.createElement( MediaEvent, { data: item, key: index }))
+            })
+        ),
+        react.createElement( 'div', null,
+          this.state.shown < this.state.data.length ?
+            react.createElement( 'a', { href: "#", onClick: this.showMore }, "Show More")
+            : react.createElement( 'div', null, "End of posts" )
+        )
+      )
+   )
   },
   render: function render(){
     return (
-      react.createElement( 'div', null, "Hello! ", react.createElement( 'div', { className: "events_container" },
-          this.state.data.slice(0,10).map(function (item, index){
-              return (react.createElement( MediaEvent, { data: item, key: index }))
-            })
-        )
+      react.createElement( 'div', null,
+        this.state.loading ?
+          this.renderLoading():
+          this.renderMainContent()
       )
     )
   }
