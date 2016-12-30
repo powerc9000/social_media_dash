@@ -1,0 +1,5 @@
+GET /activities HTTP/1.1
+Host: nuvi-challenge.herokuapp.com
+User-Agent: ClayMurray
+Accept: application/json
+Cookie: SESSION=NUVI-12345
