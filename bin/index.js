@@ -18788,7 +18788,6 @@ var MediaEvent = (function (superclass) {
 
   MediaEvent.prototype.render = function render (){
     var data = this.props.data;
-    console.log(data);
     return (
       react.createElement( 'div', { className: "event" },
         react.createElement( 'div', { className: "event_header" },
@@ -18837,7 +18836,7 @@ function Get(url){
     req.send();
   });
 }
-var container = document.getElementById("content");
+
 var Main = (function (superclass) {
   function Main(props){
     superclass.call(this, props);
@@ -18904,6 +18903,8 @@ var Main = (function (superclass) {
 
   return Main;
 }(react.Component));
+
+var container = document.getElementById("content");
 index$2.render(react.createElement( Main, null ), container);
 
 }());
