@@ -7,7 +7,6 @@ class MediaEvent extends React.Component{
 
   render(){
     var data = this.props.data;
-    console.log(data);
     return (
       <div className="event">
         <div className="event_header">

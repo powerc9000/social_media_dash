@@ -18838,35 +18838,44 @@ function Get(url){
   });
 }
 var container = document.getElementById("content");
-var Main = react.createClass({
-  getInitialState: function getInitialState(){
-    return {
-      shown:10,
+var Main = (function (superclass) {
+  function Main(props){
+    superclass.call(this, props);
+    this.state = {
+      shown: 10,
       data: [],
-      loading: true,
-    }
-  },
-  componentDidMount: function componentDidMount(){
+      loading: true
+    };
+  }
+
+  if ( superclass ) Main.__proto__ = superclass;
+  Main.prototype = Object.create( superclass && superclass.prototype );
+  Main.prototype.constructor = Main;
+
+  Main.prototype.componentDidMount = function componentDidMount (){
     var this$1 = this;
 
     Get("https://nuvi-challenge.herokuapp.com/activities").then(function (res){
       this$1.setState({data: res, loading:false});
     });
-  },
-  showMore: function showMore(e){
+  };
+
+  Main.prototype.showMore = function showMore (e){
     if(this.state.shown < this.state.data.length){
       this.setState({
         shown: Math.min(this.state.shown +20, this.state.data.length)
       });
     }
     e.preventDefault();
-  },
-  renderLoading: function renderLoading(){
+  };
+
+  Main.prototype.renderLoading = function renderLoading (){
     return (
       react.createElement( 'div', null, "Loading Data" )
     )
-  },
-  renderMainContent: function renderMainContent(){
+  };
+
+  Main.prototype.renderMainContent = function renderMainContent (){
    return (
      react.createElement( 'div', null,
         react.createElement( 'div', { className: "events_container" },
@@ -18881,8 +18890,9 @@ var Main = react.createClass({
         )
       )
    )
-  },
-  render: function render(){
+  };
+
+  Main.prototype.render = function render (){
     return (
       react.createElement( 'div', null,
         this.state.loading ?
@@ -18890,9 +18900,10 @@ var Main = react.createClass({
           this.renderMainContent()
       )
     )
-  }
-});
+  };
 
+  return Main;
+}(react.Component));
 index$2.render(react.createElement( Main, null ), container);
 
 }());

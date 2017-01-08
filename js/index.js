@@ -22,19 +22,22 @@ function Get(url){
   });
 }
 var container = document.getElementById("content");
-var Main = React.createClass({
-  getInitialState(){
-    return {
-      shown:10,
+class Main extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      shown: 10,
       data: [],
-      loading: true,
+      loading: true
     }
-  },
+  }
+
   componentDidMount(){
     Get(`https://nuvi-challenge.herokuapp.com/activities`).then((res)=>{
       this.setState({data: res, loading:false});
     })
-  },
+  }
+
   showMore(e){
     if(this.state.shown < this.state.data.length){
       this.setState({
@@ -42,14 +45,16 @@ var Main = React.createClass({
       })
     }
     e.preventDefault();
-  },
+  }
+
   renderLoading(){
     return (
       <div>
         Loading Data
       </div>
     )
-  },
+  }
+
   renderMainContent(){
    return (
      <div>
@@ -69,7 +74,8 @@ var Main = React.createClass({
         </div>
       </div>
    )
-  },
+  }
+
   render(){
     return (
       <div>
@@ -80,6 +86,5 @@ var Main = React.createClass({
       </div>
     )
   }
-});
-
+}
 ReactDOM.render(<Main/>, container);
