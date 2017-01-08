@@ -4,5 +4,5 @@ export PATH  := $(shell npm bin):$(PATH)
 .PHONY: build
 
 build:
-	buble index.js --no modules --output temp/index.js
+	buble  js/ --no modules --output temp/
 	rollup --config

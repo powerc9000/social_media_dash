@@ -18777,34 +18777,16 @@ var ReactDOM_1 = ReactDOM$1;
 
 var index$2 = ReactDOM_1;
 
-function Get(url){
-  return new Promise(function (resolve, reject){
-    var req = new XMLHttpRequest();
-    req.addEventListener("load", function (res){
-      var status = res.target.status;
-      if(status >= 200 && status < 300){
-        var result = res.target.response;
-        if(req.getResponseHeader("Content-Type").indexOf("application/json") > -1){
-          result = JSON.parse(result);
-        }
-        resolve(result);
-      }
-      else{
-        reject(res);
-      }
-    });
-    req.open("GET", url);
-    req.send();
-  });
-}
-var container = document.getElementById("content");
-var MediaEvent = react.createClass({
-  getInitialState: function getInitialState(){
-    return {
+var MediaEvent = (function (superclass) {
+  function MediaEvent(props){
+    superclass.call(this, props);
+  }
 
-    }
-  },
-  render: function render(){
+  if ( superclass ) MediaEvent.__proto__ = superclass;
+  MediaEvent.prototype = Object.create( superclass && superclass.prototype );
+  MediaEvent.prototype.constructor = MediaEvent;
+
+  MediaEvent.prototype.render = function render (){
     var data = this.props.data;
     console.log(data);
     return (
@@ -18830,9 +18812,32 @@ var MediaEvent = react.createClass({
         data.provider
       )
     );
-  }
-});
+  };
 
+  return MediaEvent;
+}(react.Component));
+
+function Get(url){
+  return new Promise(function (resolve, reject){
+    var req = new XMLHttpRequest();
+    req.addEventListener("load", function (res){
+      var status = res.target.status;
+      if(status >= 200 && status < 300){
+        var result = res.target.response;
+        if(req.getResponseHeader("Content-Type").indexOf("application/json") > -1){
+          result = JSON.parse(result);
+        }
+        resolve(result);
+      }
+      else{
+        reject(res);
+      }
+    });
+    req.open("GET", url);
+    req.send();
+  });
+}
+var container = document.getElementById("content");
 var Main = react.createClass({
   getInitialState: function getInitialState(){
     return {
